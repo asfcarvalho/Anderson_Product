@@ -7,6 +7,7 @@
 
 import XCTest
 import Common
+import LocalDatabase
 @testable import Anderson_Products
 
 final class ProductsViewModelTests: XCTestCase {
@@ -23,12 +24,14 @@ final class ProductsViewModelTests: XCTestCase {
         // Arrange
         let expectation = expectation(description: "Expected the successfulFetch() method to be called")
         let mockDataSource = MockProductsDataSource()
-        let sut = ProductsViewModel(movieDataSource: mockDataSource)
+        let validator = ProductListModelValidator()
+        let localData = ProductStorageRepository()
+        let sut = ProductsViewModel(validator: validator, dataSource: mockDataSource, localData: localData)
         mockDataSource.expectation = expectation
         mockDataSource.products = LoadJsonData.loadJson(filename: "ProductList")
         
         // Act
-        sut.send(action: .viewDidLoad)
+        sut.send(action: .shuldCallNextPage(0))
         
         // Assert
         self.wait(for: [expectation], timeout: 5)

@@ -17,10 +17,4 @@ internal class ProductInfoRLM: Object {
     @objc internal dynamic var total: Int = 0
     internal dynamic var skip: Int = 0
     internal dynamic var limit: Int = 0
-    
-    init(total: Int, skip: Int, limit: Int) {
-        self.total = total
-        self.skip = skip
-        self.limit = limit
-    }
 }

@@ -14,6 +14,10 @@ internal extension Product {
             object.productId = id
             object.title = title
             object.rating = rating
+            object.price = price
+            object.discountPercentage = discountPercentage
+            object.stock = stock
+            object.thumbnail = thumbnail
         }
     }
 }
@@ -28,7 +32,11 @@ internal extension ProductRLM {
     func asProduct() -> Product {
         Product(id: productId,
                 title: title,
-                rating: rating)
+                rating: rating,
+                price: price,
+                discountPercentage: discountPercentage,
+                stock: stock,
+                thumbnail: thumbnail)
     }
 }
 

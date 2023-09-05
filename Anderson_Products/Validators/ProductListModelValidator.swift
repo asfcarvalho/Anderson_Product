@@ -9,7 +9,9 @@ import Foundation
 import DataModules
 
 public class ProductListModelValidator: ProductListValidatorProtocol {
-    public func shuldCallNextPage(_ productInfo: ProductInfo) -> Bool {
-        productInfo.skip + productInfo.limit < productInfo.total
+    public func shuldCallNextPage(_ index: Int, _ productInfo: ProductInfo) -> Bool {
+        let maxValue = productInfo.skip + productInfo.limit
+        
+        return maxValue < productInfo.total && index == maxValue - 5
     }
 }

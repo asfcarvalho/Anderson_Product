@@ -11,7 +11,11 @@ public extension ProductItem {
     func asProduct() -> Product {
         Product(id: self.id ?? 0,
                 title: self.title ?? "",
-                rating: self.rating ?? 0)
+                rating: self.rating ?? 0,
+                price: self.price ?? 0, 
+                discountPercentage: self.discountPercentage ?? 0,
+                stock: self.stock ?? 0,
+                thumbnail: self.thumbnail ?? "")
     }
 }
 

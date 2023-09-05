@@ -11,7 +11,7 @@ import DataModules
 
 final class ProductListModelValidatorTests: XCTestCase {
     
-    var productList: Products!
+    var productInfo: ProductInfo!
     var sut: ProductListValidatorProtocol!
 
     override func setUpWithError() throws {
@@ -19,17 +19,17 @@ final class ProductListModelValidatorTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        productList = nil
+        productInfo = nil
         sut = nil
     }
 
     func testProductListModelValidator_WhenProductListCheckNextPage_ThenCallNextPage() throws {
         // Arrange
-        productList = Products(products: [], total: 10, skip: 0, limit: 5)
+        productInfo = ProductInfo(total: 10, skip: 0, limit: 5)
         
         
         // Act
-        let callNextPage = sut.shuldCallNextPage(productList)
+        let callNextPage = sut.shuldCallNextPage(0, productInfo)
                 
         // Assert
         XCTAssertTrue(callNextPage)
@@ -37,10 +37,10 @@ final class ProductListModelValidatorTests: XCTestCase {
     
     func testProductListModelValidator_WhenProductListCheckNextPage_ThenNotCallNextPage() throws {
         // Arrange
-        productList = Products(products: [], total: 10, skip: 0, limit: 10)
+        productInfo = ProductInfo(total: 10, skip: 0, limit: 10)
         
         // Act
-        let callNextPage = sut.shuldCallNextPage(productList)
+        let callNextPage = sut.shuldCallNextPage(5, productInfo)
                 
         // Assert
         XCTAssertFalse(callNextPage)

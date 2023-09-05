@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 import BaseUI
 import DataModules
+import LocalDatabase
 
 class ProductsRouter{
     
@@ -22,7 +23,8 @@ class ProductsRouter{
     class func build() -> UIHostingController<ProductsView> {
         let dataSource = ProductsDataSource()
         let validator = ProductListModelValidator()
-        let viewModel = ProductsViewModel(validator: validator, dataSource: dataSource)
+        let localData = ProductStorageRepository()
+        let viewModel = ProductsViewModel(validator: validator, dataSource: dataSource, localData: localData)
         let rootView = ProductsView(input: viewModel)
         let viewController = ProductsViewController(rootView: rootView)
         viewModel.router = ProductsRouter(viewController: viewController)
@@ -36,6 +38,10 @@ class ProductsRouter{
             break
         case .dismiss:
             viewController?.dismiss(animated: true)
+            
+        case .showDetail(let product):
+            let vc = ProductDetailRouter.build(product)
+            viewController?.present(vc, animated: true)
         }
     }
 }
@@ -46,6 +52,7 @@ public extension Router {
             public enum Acion: Hashable {
                 case sample
                 case dismiss
+                case showDetail(_ product: Product)
             }
         }
     }

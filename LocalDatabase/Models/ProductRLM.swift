@@ -17,4 +17,8 @@ internal class ProductRLM: Object {
     @objc internal dynamic var productId: Int = 0
     internal dynamic var title: String = ""
     internal dynamic var rating: Double = 0.0
+    internal dynamic var price: Int = 0
+    internal dynamic var discountPercentage: Double = 0.0
+    internal dynamic var stock: Int = 0
+    internal dynamic var thumbnail: String = ""
 }

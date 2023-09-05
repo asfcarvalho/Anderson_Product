@@ -1,8 +1,8 @@
 //
-//  ProductsViewControllerViewController.swift
+//  ProductDetailViewControllerViewController.swift
 //  Anderson_Products
 //
-//  Created by Anderson F Carvalho on 04/09/23.
+//  Created by Anderson F Carvalho on 05/09/23.
 //  Copyright (c) 2023 ___ORGANIZATIONNAME___. All rights reserved.
 //
 
@@ -11,12 +11,12 @@ import SwiftUI
 import Combine
 import DataModules
 
-class ProductsViewController: UIHostingController<ProductsView> {
+class ProductDetailViewController: UIHostingController<ProductDetailView> {
     
     private var token = CancelBag()
-    private var viewModel: ProductsViewModel?
+    private var viewModel: ProductDetailViewModel?
     
-    override init(rootView: ProductsView) {
+    override init(rootView: ProductDetailView) {
         super.init(rootView: rootView)
         
         viewModel = rootView.input
@@ -29,7 +29,7 @@ class ProductsViewController: UIHostingController<ProductsView> {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.viewModel?.send(action: .viewDidLoad)
+        
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -39,10 +39,6 @@ class ProductsViewController: UIHostingController<ProductsView> {
             switch action {
             case .dismiss:
                 self.viewModel?.send(action: .dismiss)
-            case .shuldCallNextPage(let index):
-                self.viewModel?.send(action: .shuldCallNextPage(index))
-            case .showDetail(let product):
-                self.viewModel?.send(action: .showDetail(product))
             }
         }.store(in: token)
     }

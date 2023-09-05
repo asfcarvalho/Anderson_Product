@@ -9,5 +9,5 @@ import Foundation
 import DataModules
 
 public protocol ProductListValidatorProtocol {
-    func shuldCallNextPage(_ productInfo: ProductInfo) -> Bool
+    func shuldCallNextPage(_ index: Int, _ productInfo: ProductInfo) -> Bool
 }

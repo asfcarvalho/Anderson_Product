@@ -13,6 +13,7 @@ import Common
 import BaseUI
 //import Components
 import DataModules
+import LocalDatabase
 
 struct ProductsView: View {
     
@@ -29,25 +30,35 @@ struct ProductsView: View {
         NavigationView {
             VStack {
                 ScrollView {
-                    ForEach(input.products, id: \.self) { product in
-                        HStack {
-                            Image(systemName: product.icon)
-                                .foregroundColor(Color.yellow)
-                            Text(product.title)
-                            Spacer()
-                            Text(product.ratingString)
-                        }.padding(.horizontal)
-                            .padding(.bottom, 4)
+                    LazyVStack {
+                        ForEach(Array(input.products.enumerated()),
+                                id: \.element) { index, product in
+                            Button {
+                                output.value.send(.showDetail(product))
+                            } label: {
+                                HStack {
+                                    Image(systemName: product.icon)
+                                        .foregroundColor(Color.yellow)
+                                    Text(product.title)
+                                        .foregroundColor(Color.black)
+                                    Spacer()
+                                    Text(product.ratingString)
+                                        .foregroundColor(Color.black)
+                                }.frame(minHeight: 30)
+                                    .padding(.horizontal)
+                                    .padding(.bottom, 4)
+                                    .onAppear {
+                                        output.value.send(.shuldCallNextPage(index))
+                                    }
+                            }
+                        }
+                        if input.isLoading {
+                            ProgressView()
+                        }
                     }
                 }
             }.navigationBarHidden(true)
-        }.onTapGesture {
-            hideKeyboard()
         }
-    }
-    
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
@@ -60,7 +71,7 @@ struct ProductsView_Previews: PreviewProvider {
         let products: Products? = LoadJsonData.loadJson(filename: "ProductList")
         ProductsView(input: .init(products?.products?.asProductArray() ?? [],
                                   validator: ProductListModelValidator(),
-                                  dataSource: ProductsDataSource()))
+                                  dataSource: ProductsDataSource(), localData: ProductStorageRepository()))
     }
 }
 #endif
